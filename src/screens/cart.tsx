@@ -1,10 +1,11 @@
 import React from 'react';
-import { FlatList, View,Text } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { removeFromCart } from '../state/cart/slice';
-import ProductItem from '../components/productItem';
-import { CartTabNavigationProp } from '../navigation/types';
-import { Product } from '../types/cart';
+import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList, SafeAreaView } from 'react-native';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { removeFromCart, addToCart } from 'src/state/cart/slice';
+import { CartTabNavigationProp } from 'src/navigation/types';
+import { Product } from 'src/types/cart';
+import { ScreenNames } from 'src/navigation/screenNames';
+import { COLORS, STRINGS } from 'src/constants';
 
 type CartProps = {
   navigation: CartTabNavigationProp;
@@ -13,26 +14,110 @@ type CartProps = {
 const Cart: React.FC<CartProps> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.cart);
-
-  const handleRemoveFromCart = (productId:number) => {
-    dispatch(removeFromCart(productId));
+  const renderItem = ({ item }: { item: { product: Product; quantity: number } }) => {
+    return (
+      <TouchableOpacity onPress={()=>navigation.navigate(ScreenNames.ProductDetail,{productId:item.product.id})} style={styles.card}>
+        <View style={styles.leftSection}>
+          <Image source={{ uri: item.product.image }} style={styles.image} />
+          <View style={styles.quantityContainer}>
+            <TouchableOpacity onPress={() => dispatch(removeFromCart(item.product.id))} style={styles.controlButton}>
+              <Text style={styles.controlText}>{STRINGS.minusSign}</Text>
+            </TouchableOpacity>
+            <View style={styles.quantity}>
+              <Text style={styles.quantityText}>{item.quantity}</Text>
+            </View>
+            <TouchableOpacity onPress={() => dispatch(addToCart(item.product))} style={styles.controlButton}>
+              <Text style={styles.controlText}>{STRINGS.plusSign}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.rightSection}>
+          <Text style={styles.category}>{item.product.category[0].toUpperCase()+item.product.category.slice(1)}</Text>
+          <Text style={styles.title}>{item.product.title}</Text>
+          <Text style={styles.total}>{STRINGS.total}{STRINGS.dollarSign}{(item.quantity * item.product.price).toFixed(2)}</Text>
+        </View>
+      </TouchableOpacity>
+    );
   };
 
-  const renderItem = ({ item }:{item:Product}) => (
-    <View>
-      <ProductItem
-        product={item}
-        onPress={() => navigation.navigate('ProductDetail', { productId: item.id })}
-      />
-      <Text onPress={() => handleRemoveFromCart(item.id)}>Remove from Cart</Text>
-    </View>
-  );
-
   return (
-    <View>
-      <FlatList data={cart} renderItem={renderItem} keyExtractor={(item) => item.id.toString()} />
-    </View>
+    <SafeAreaView style={styles.container}>
+      {cart && <FlatList showsVerticalScrollIndicator={false} style={styles.itemList} data={cart} renderItem={renderItem} keyExtractor={(item) => item.product.id.toString()} />}
+    </SafeAreaView>
   );
 };
-
+const styles = StyleSheet.create({
+  itemList:{
+    marginBottom:40
+  },
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+  },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: COLORS.cardBg,
+    margin: 10,
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+  },
+  leftSection: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  rightSection: {
+    flex: 1.5,
+    marginLeft: 20,
+  },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  controlButton: {
+    backgroundColor: COLORS.black,
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  controlText: {
+    color: COLORS.white,
+    fontSize: 20,
+  },
+  quantity: {
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.black,
+  },
+  quantityText: {
+    color: COLORS.black,
+    fontSize: 16,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    resizeMode:'contain'
+  },
+  category: {
+    color: COLORS.title,
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  title: {
+    color: COLORS.price,
+    fontSize: 14,
+    marginTop:12,
+  },
+  total: {
+    fontWeight:'bold',
+    color: COLORS.title,
+    fontSize: 28,
+    marginTop: 22,
+  },
+});
 export default Cart;

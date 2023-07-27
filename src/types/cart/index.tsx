@@ -1,4 +1,3 @@
-// interfaces.ts (or wherever you have your interfaces defined)
 export interface Product {
   id: number;
   title: string;
@@ -7,11 +6,14 @@ export interface Product {
   category: string;
   image: string;
 }
-export interface CartState {
+export type CartState = {
   products: Product[];
-  cart: Product[];
-  currentProduct: null | Product;
+  cart: {
+    product: Product;
+    quantity: number;
+  }[];
   loading: boolean;
   error: null | string;
   currentProductId: null | number;
-}
+  currentProduct: null | Product;
+};

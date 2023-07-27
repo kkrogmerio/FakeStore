@@ -1,6 +1,6 @@
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest, CallEffect, PutEffect } from 'redux-saga/effects';
-import { getProducts, getProductById } from '../apis/productApi';
+import { getProducts, getProductById } from 'src/apis/productApi';
 import {
   fetchProducts,
   fetchProductsSuccess,
@@ -8,8 +8,8 @@ import {
   fetchProductById,
   getProductSuccess,
   getProductFail
-} from '../state/cart/slice';
-import { Product } from '../types/cart';
+} from 'src/state/cart/slice';
+import { Product } from 'src/types/cart';
 
 function* fetchProductsSaga(): SagaIterator {
   try {

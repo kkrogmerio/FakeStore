@@ -1,20 +1,25 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import ProductList from '../../screens/productList';
-import ProductDetail from '../../screens/productDetail';
+import ProductList from 'src/screens/productList';
+import ProductDetail from 'src/screens/productDetail';
+import { ScreenNames } from '../screenNames';
 
 type ProductStackParamList = {
-  ProductList: undefined;
-  ProductDetail: { productId: number };
+  [ScreenNames.Home]: undefined;
+  [ScreenNames.ProductDetail]: { productId: number };
 };
 
 const ProductStack = createStackNavigator<ProductStackParamList>();
 
 const ProductStackNavigator = () => {
   return (
-    <ProductStack.Navigator>
-      <ProductStack.Screen name="ProductList" component={ProductList} />
-      <ProductStack.Screen name="ProductDetail" component={ProductDetail} />
+    <ProductStack.Navigator
+      screenOptions={{
+        headerShown: false, 
+      }}
+    >
+      <ProductStack.Screen name={ScreenNames.Home} component={ProductList} />
+      <ProductStack.Screen name={ScreenNames.ProductDetail} component={ProductDetail} />
     </ProductStack.Navigator>
   );
 };

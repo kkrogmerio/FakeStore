@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { Product, CartState } from '../../types/cart';
+import { Product, CartState } from 'src/types/cart';
 
 const initialState: CartState = {
     products: [],
@@ -41,11 +41,32 @@ const cart = createSlice({
       state.loading = false;
     },
     addToCart: (state, action: PayloadAction<Product>) => {
-      state.cart.push(action.payload);
+      const productInCart = state.cart.find(
+        (item) => item.product.id === action.payload.id
+      );
+    
+      if (productInCart) {
+        productInCart.quantity++;
+      } else {
+        state.cart.push({ product: action.payload, quantity: 1 });
+      }
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
-      state.cart = state.cart.filter(product => product.id !== action.payload);
+      const productInCart = state.cart.find(
+        (item) => item.product.id === action.payload
+      );
+    
+      if (productInCart) {
+        productInCart.quantity--;
+    
+        if (productInCart.quantity <= 0) {
+          state.cart = state.cart.filter(
+            (product) => product.product.id !== action.payload
+          );
+        }
+      }
     },
+    
   },
 });
 

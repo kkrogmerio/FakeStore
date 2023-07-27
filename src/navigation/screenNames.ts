@@ -1,5 +1,5 @@
 export enum ScreenNames{
-    Details='Details',
+    ProductDetail='ProductDetail',
     Cart='Cart',
     Home='Home',
     ProductStack='ProductStack'

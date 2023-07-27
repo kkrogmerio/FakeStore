@@ -2,60 +2,57 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { View, StyleSheet } from 'react-native';
-
-import Cart from '../screens/cart';
+import {CartIconWithBadge}from 'src/components'
+import Cart from 'src/screens/cart';
 import ProductStackNavigator from './stacks/productStack';
-
+import { ScreenNames } from './screenNames';
+import {COLORS} from 'src/constants';
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <View style={styles.navigatorContainer}>
-        <Tab.Navigator
-          initialRouteName="Home"
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
+      <Tab.Navigator
+        initialRouteName={ScreenNames.Home}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
 
-              if (route.name === 'ProductStack') {
-                iconName = focused ? 'home' : 'home-outline';
-              } else{
-                iconName = focused ? 'cart' : 'cart-outline';
-              }
-         
+            if (route.name === ScreenNames.ProductStack) {
+              iconName = focused ? 'home' : 'home-outline';
               return <Icon name={iconName} size={size} color={color} />;
+            } else if (route.name === ScreenNames.Cart) {
+              iconName = focused ? 'cart' : 'cart-outline';
+              return <CartIconWithBadge name={iconName} size={size} color={color} />;
+            }
+          },
+          tabBarActiveTintColor: COLORS.tabActiveTint,
+          tabBarInactiveTintColor: COLORS.tabInactiveTint,
+          tabBarStyle: {
+            backgroundColor: COLORS.white,
+            borderRadius: 30,
+            height: 60,
+            shadowColor: COLORS.shadow,
+            shadowOffset: {
+              width: 0,
+              height: 3,
             },
-            tabBarActiveTintColor: 'tomato',
-            tabBarInactiveTintColor: 'gray',
-          })}
-        >
-          <Tab.Screen name="ProductStack" component={ProductStackNavigator} />
-          <Tab.Screen name="Cart" component={Cart} />
-        </Tab.Navigator>
-      </View>
+            shadowOpacity: 0.27,
+            shadowRadius: 4.65,
+            elevation: 6,
+            position: 'absolute',
+            marginBottom: 20,
+            marginHorizontal: 20,
+            paddingBottom: 10,
+          },
+          headerShown: false,
+        })}
+      >
+        <Tab.Screen name={ScreenNames.ProductStack} component={ProductStackNavigator} options={{ title: ScreenNames.Home }} />
+        <Tab.Screen name={ScreenNames.Cart} component={Cart} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
-
-
-const styles = StyleSheet.create({
-  navigatorContainer: {
-    flex: 1,
-    position: 'absolute',
-    backgroundColor: 'white',
-    margin: 10,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 6,
-  },
-});
 
 export default AppNavigator;

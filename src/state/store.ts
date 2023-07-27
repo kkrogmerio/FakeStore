@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { watcherSaga as cartWatcherSaga } from '../sagas/cartSaga';
+import { watcherSaga as cartWatcherSaga } from 'src/sagas/cartSaga';
 import cartReducer from './cart/slice';
 
 const persistConfig = {
