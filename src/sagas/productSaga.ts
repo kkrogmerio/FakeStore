@@ -29,7 +29,7 @@ function* fetchProductByIdSaga(action: ReturnType<typeof fetchProductById>): Sag
   }
 }
 
-export function* watcherSaga(): SagaIterator {
+export function* productSaga(): SagaIterator {
   yield takeLatest(fetchProducts.type, fetchProductsSaga);
   yield takeLatest(fetchProductById.type, fetchProductByIdSaga);
 }
