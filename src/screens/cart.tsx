@@ -7,14 +7,16 @@ import { Product } from 'src/types/cart';
 import { ScreenNames } from 'src/navigation/screenNames';
 import { COLORS, STRINGS } from 'src/constants';
 import FastImage from 'react-native-fast-image';
+import { itemCostsSelector } from 'src/state/cart/selectors';
+import { CartItemWithTotalCost } from 'src/types/cart';
 type CartProps = {
   navigation: CartTabNavigationProp;
 };
 
 const Cart: React.FC<CartProps> = ({ navigation }) => {
   const dispatch = useAppDispatch();
-  const cart = useAppSelector((state) => state.cart.cart);
-  const renderItem = ({ item }: { item: { product: Product; quantity: number } }) => {
+  const cartItemsWithTotalCost = useAppSelector(itemCostsSelector);
+  const renderItem = ({ item }: {item:CartItemWithTotalCost}) => {
     return (
       <TouchableOpacity onPress={()=>navigation.navigate(ScreenNames.ProductDetail,{productId:item.product.id})} style={styles.card}>
         <View style={styles.leftSection}>
@@ -34,7 +36,7 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
         <View style={styles.rightSection}>
           <Text style={styles.category}>{item.product.category[0].toUpperCase()+item.product.category.slice(1)}</Text>
           <Text style={styles.title}>{item.product.title}</Text>
-          <Text style={styles.total}>{STRINGS.total}{STRINGS.dollarSign}{(item.quantity * item.product.price).toFixed(2)}</Text>
+          <Text style={styles.total}>{STRINGS.total}{STRINGS.dollarSign}{item.totalCost}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -42,7 +44,7 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {cart && <FlatList showsVerticalScrollIndicator={false} style={styles.itemList} data={cart} renderItem={renderItem} keyExtractor={(item) => item.product.id.toString()} />}
+      {cartItemsWithTotalCost && <FlatList showsVerticalScrollIndicator={false} style={styles.itemList} data={cartItemsWithTotalCost} renderItem={renderItem} keyExtractor={(item) => item.product.id.toString()} />}
     </SafeAreaView>
   );
 };

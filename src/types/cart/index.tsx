@@ -17,3 +17,8 @@ export type CartState = {
   currentProductId: null | number;
   currentProduct: null | Product;
 };
+export interface CartItemWithTotalCost {
+  product: Product;
+  quantity: number;
+  totalCost: number;
+}
