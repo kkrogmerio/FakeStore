@@ -1,8 +1,8 @@
 import React from 'react';
-import { ViewStyle,Text,View,StyleSheet } from 'react-native';
+import { Text,View,StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useAppSelector } from 'src/hooks';
-import { COLORS, STRINGS } from 'src/constants';
+import { COLORS} from 'src/constants';
 
 interface IconProps {
   name: string;

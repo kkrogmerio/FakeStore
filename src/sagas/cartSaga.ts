@@ -1,5 +1,5 @@
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLatest, CallEffect, PutEffect } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { getProducts, getProductById } from 'src/apis/productApi';
 import {
   fetchProducts,

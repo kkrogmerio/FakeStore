@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { takeLatest, call, put } from 'redux-saga/effects';
 import { Product, CartState } from 'src/types/cart';
 
 const initialState: CartState = {

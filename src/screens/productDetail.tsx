@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import {
-  Image,
   Text,
   TouchableOpacity,
   View,
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {useAppDispatch, useAppSelector} from 'src/hooks';
 import {addToCart, fetchProductById} from 'src/state/cart/slice';
 import {
@@ -55,7 +55,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({route, navigation}) => {
         <ScrollView
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}>
-          <Image source={{uri: product.image}} style={styles.image} />
+          <FastImage source={{uri: product.image}} style={styles.image} resizeMode={FastImage.resizeMode.contain}/>
           <Text style={styles.title}>{product.title}</Text>
           <Text style={styles.price}>
             {STRINGS.currencySymbol}
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 300,
-    resizeMode: 'contain',
+
   },
   title: {
     fontSize: 24,

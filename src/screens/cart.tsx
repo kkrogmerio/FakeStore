@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { removeFromCart, addToCart } from 'src/state/cart/slice';
 import { CartTabNavigationProp } from 'src/navigation/types';
 import { Product } from 'src/types/cart';
 import { ScreenNames } from 'src/navigation/screenNames';
 import { COLORS, STRINGS } from 'src/constants';
-
+import FastImage from 'react-native-fast-image';
 type CartProps = {
   navigation: CartTabNavigationProp;
 };
@@ -18,7 +18,7 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
     return (
       <TouchableOpacity onPress={()=>navigation.navigate(ScreenNames.ProductDetail,{productId:item.product.id})} style={styles.card}>
         <View style={styles.leftSection}>
-          <Image source={{ uri: item.product.image }} style={styles.image} />
+          <FastImage source={{ uri: item.product.image }} style={styles.image} resizeMode={FastImage.resizeMode.contain}/>
           <View style={styles.quantityContainer}>
             <TouchableOpacity onPress={() => dispatch(removeFromCart(item.product.id))} style={styles.controlButton}>
               <Text style={styles.controlText}>{STRINGS.minusSign}</Text>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,
-    resizeMode:'contain'
+
   },
   category: {
     color: COLORS.title,
