@@ -35,8 +35,8 @@ const Cart: React.FC<CartProps> = ({ navigation }) => {
         </View>
         <View style={styles.rightSection}>
           <Text style={styles.category}>{item.product.category[0].toUpperCase()+item.product.category.slice(1)}</Text>
-          <Text style={styles.title}>{item.product.title}</Text>
-          <Text style={styles.total}>{STRINGS.total}{STRINGS.dollarSign}{item.totalCost}</Text>
+          <Text style={styles.title} numberOfLines={2}>{item.product.title}</Text>
+          <Text style={styles.total}>{'\n'}{STRINGS.total}{STRINGS.dollarSign}{item.totalCost}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -66,11 +66,13 @@ const styles = StyleSheet.create({
   },
   leftSection: {
     alignItems: 'center',
+    justifyContent:'space-between',
     flex: 1,
   },
   rightSection: {
     flex: 1.5,
     marginLeft: 20,
+    justifyContent:'space-between',
   },
   quantityContainer: {
     flexDirection: 'row',
@@ -103,11 +105,11 @@ const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,
-
+    marginBottom:8
   },
   category: {
     color: COLORS.title,
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   title: {
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
   total: {
     fontWeight:'bold',
     color: COLORS.title,
-    fontSize: 28,
+    fontSize: 20,
     marginTop: 22,
   },
 });
