@@ -6,19 +6,20 @@ export interface Product {
   category: string;
   image: string;
 }
+export interface Cart{
+  product: Product;
+  quantity: number;
+}
 export type CartState = {
   products: Product[];
-  cart: {
-    product: Product;
-    quantity: number;
-  }[];
+  cart: Cart[];
   loading: boolean;
   error: null | string;
   currentProductId: null | number;
   currentProduct: null | Product;
 };
-export interface CartItemWithTotalCost {
-  product: Product;
-  quantity: number;
+
+export interface CartItemWithTotalCost extends Cart{
+
   totalCost: number;
 }
