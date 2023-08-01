@@ -7,13 +7,14 @@ import Cart from 'src/screens/cart';
 import ProductStackNavigator from './stacks/productStack';
 import { ScreenNames } from './screenNames';
 import {COLORS} from 'src/constants';
-const Tab = createBottomTabNavigator();
+import { TabParamList } from './types';
+const Tab = createBottomTabNavigator<TabParamList>();
 
 const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName={ScreenNames.Home}
+        initialRouteName={ScreenNames.ProductStack}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;

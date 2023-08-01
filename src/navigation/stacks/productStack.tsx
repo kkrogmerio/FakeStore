@@ -3,12 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ProductList from 'src/screens/productList';
 import ProductDetail from 'src/screens/productDetail';
 import { ScreenNames } from '../screenNames';
-
-type ProductStackParamList = {
-  [ScreenNames.Home]: undefined;
-  [ScreenNames.ProductDetail]: { productId: number };
-};
-
+import { ProductStackParamList } from '../types';
 const ProductStack = createStackNavigator<ProductStackParamList>();
 
 const ProductStackNavigator = () => {
