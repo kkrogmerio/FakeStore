@@ -1,7 +1,8 @@
 
 import { createSelector } from '@reduxjs/toolkit';
 import { Cart } from 'src/types/cart';
-const cartItemsSelector = (state: { cart: { cart: Cart[]; }; }) => state.cart.cart;
+import { RootState } from '../store';
+const cartItemsSelector = (state: RootState) => state.cart.cart;
 
 export const itemCostsSelector = createSelector(cartItemsSelector, (cartItems) =>
   cartItems.map((item: Cart) => ({ 
